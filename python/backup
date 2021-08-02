@@ -1,0 +1,11 @@
+planet,Mass (1024kg),Diameter (km),Density (kg/m3),Gravity (m/s2),Escape Velocity (km/s),Rotation Period (hours),Length of Day (hours),Distance from Sun (106 km),Perihelion (106 km),Aphelion (106 km),Orbital Period (days),Orbital Velocity (km/s),Orbital Inclination (degrees),Orbital Eccentricity,Obliquity to Orbit (degrees),Mean Temperature (C),Surface Pressure (bars),Number of Moons,Ring System?,Global Magnetic Field?
+Mercury,0.330,4879,5427,3.7,4.3,1407.6,4222.6,57.9,46.0,69.8,88.0,47.4,7.0,0.205,0.034,15,92,
+Venus,
+Earth,
+Moon,
+Mars,
+Jupiter,
+Saturn,
+Uranus,
+Neptune,
+Pluto
