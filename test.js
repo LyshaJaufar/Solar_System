@@ -51,9 +51,9 @@ function init() {
 
 		specular: 0x333333,
 		shininess: 15,
-		map: textureLoader.load( "textures/planets/earth_atmos_2048.jpg" ),
-		specularMap: textureLoader.load( "textures/planets/earth_specular_2048.jpg" ),
-		normalMap: textureLoader.load( "textures/planets/earth_normal_2048.jpg" ),
+		map: textureLoader.load( "textures/earth_atmos_2048.jpg" ),
+		specularMap: textureLoader.load( "textures/earth_specular_2048.jpg" ),
+		normalMap: textureLoader.load( "textures/earth_normal_2048.jpg" ),
 
 		// y scale is negated to compensate for normal map handedness.
 		normalScale: new THREE.Vector2( 0.85, - 0.85 )
@@ -73,7 +73,7 @@ function init() {
 
 	const materialClouds = new THREE.MeshLambertMaterial( {
 
-		map: textureLoader.load( "textures/planets/earth_clouds_1024.png" ),
+		map: textureLoader.load( "textures/earth_clouds_1024.png" ),
 		transparent: true
 
 	} );
@@ -87,7 +87,7 @@ function init() {
 
 	const materialMoon = new THREE.MeshPhongMaterial( {
 
-		map: textureLoader.load( "textures/planets/moon_1024.jpg" )
+		map: textureLoader.load( "textures/moon_1024.jpg" )
 
 	} );
 
