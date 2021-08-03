@@ -3,7 +3,7 @@ import {
 	UniformsUtils
 } from './build/three.module.js';
 import { Pass, FullScreenQuad } from './folder/Pass.js';
-import { FilmShader } from '../shaders/FilmShader.js';
+import { FilmShader } from './folder/FilmShader.js';
 
 class FilmPass extends Pass {
 
