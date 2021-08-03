@@ -13,7 +13,6 @@ import { CopyShader } from './folder/CopyShader.js';
 import { ShaderPass } from './folder/ShaderPass.js';
 import { MaskPass } from './folder/MaskPass.js';
 import { ClearMaskPass } from './folder/MaskPass.js';
-//test
 class EffectComposer {
 
 	constructor( renderer, renderTarget ) {
@@ -314,3 +313,5 @@ class FullScreenQuad {
 	}
 
 }
+
+export { EffectComposer, Pass, FullScreenQuad };
