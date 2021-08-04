@@ -1,7 +1,7 @@
 
-import * as THREE from './build/three.module.js';
+import * as THREE from '../build/three.module.js';
 
-import Stats from './build/stats.module.js';
+import Stats from '../build/stats.module.js';
 
 import { FlyControls } from '/FlyControls.js';
 import { EffectComposer } from '/EffectComposer.js';
@@ -37,7 +37,7 @@ animate();
 
 function init() {
 
-	camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
+	camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
 	camera.position.z = radius * 5;
 
 	scene = new THREE.Scene();

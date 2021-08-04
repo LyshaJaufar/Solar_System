@@ -1,4 +1,4 @@
-import * as THREE from './build/three.module.js';
+import * as THREE from '../build/three.module.js';
 import { FlyControls } from '/FlyControls.js';
 
 // Various three.js global variables
