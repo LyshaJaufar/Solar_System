@@ -1,4 +1,3 @@
-
 import * as THREE from '../build/three.module.js';
 
 import Stats from '../build/stats.module.js';
@@ -8,20 +7,26 @@ import { EffectComposer } from '/EffectComposer.js';
 import { RenderPass } from '/RenderPass.js';
 import { FilmPass } from '/FilmPass.js';
 
-const radius = 6371;
+const radius = 3000;
 const tilt = 0.41;
 const rotationSpeed = 0.02;
 
-const cloudsScale = 1.005;
+const earthScale = 0.009;
+const mercuryScale = 0.0035;
+const cloudsScale = 0.009005;
 const moonScale = 0.23;
+
+var mercuryMeanDis = 579;
+var venusMeanDis = 1080;
+var earthMeanDis = 1500;
 
 const MARGIN = 0;
 let SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
 let SCREEN_WIDTH = window.innerWidth;
 
 let camera, controls, scene, renderer, stats;
-let geometry, meshPlanet, meshClouds, meshMoon;
-let dirLight;
+let geometry, meshPlanet, meshClouds, meshMoon, meshSun, meshMercury;
+let dirLight, dirLight1, dirLight2, dirLight3;
 
 let composer;
 
@@ -38,14 +43,27 @@ animate();
 function init() {
 
 	camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
-	camera.position.z = radius * 5;
+	camera.position.x = (radius + earthMeanDis)+100;
+	camera.position.z = radius;
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2( 0x000000, 0.00000025 );
 
-	dirLight = new THREE.DirectionalLight( 0xffffff );
-	dirLight.position.set( - 1, 0, 1 ).normalize();
-	scene.add( dirLight );
+	lights();
+
+	// Sun
+	const materialSun = new THREE.MeshPhongMaterial( {
+
+		map: textureLoader.load( "textures/sun.png" )
+
+	});
+	geometry = new THREE.SphereGeometry( radius, 100, 50 );
+
+	meshSun = new THREE.Mesh( geometry, materialSun );
+	meshSun.rotation.y = 0;
+	meshSun.rotation.z = tilt;
+	scene.add( meshSun );
+
 
 	const materialNormalMap = new THREE.MeshPhongMaterial( {
 
@@ -60,17 +78,28 @@ function init() {
 
 	} );
 
+	// Mercury
+	const materialMercury = new THREE.MeshPhongMaterial( {
+
+		map: textureLoader.load( "textures/mercury.jpg" )
+
+	} );
+
+	meshMercury = new THREE.Mesh( geometry, materialMercury );
+	meshMercury.position.set( radius+mercuryMeanDis, 0, 0 );
+	meshMercury.scale.set(mercuryScale, mercuryScale, mercuryScale );
+	scene.add( meshMercury );
+
+
 	// planet
-
-	geometry = new THREE.SphereGeometry( radius, 100, 50 );
-
 	meshPlanet = new THREE.Mesh( geometry, materialNormalMap );
+	meshPlanet.position.set( radius+earthMeanDis, 0, 0 );
+	meshPlanet.scale.set( earthScale, earthScale, earthScale );
 	meshPlanet.rotation.y = 0;
 	meshPlanet.rotation.z = tilt;
 	scene.add( meshPlanet );
 
 	// clouds
-
 	const materialClouds = new THREE.MeshLambertMaterial( {
 
 		map: textureLoader.load( "textures/earth_clouds_1024.png" ),
@@ -79,12 +108,12 @@ function init() {
 	} );
 
 	meshClouds = new THREE.Mesh( geometry, materialClouds );
+	meshClouds.position.set( radius+earthMeanDis, 0, 0 );
 	meshClouds.scale.set( cloudsScale, cloudsScale, cloudsScale );
 	meshClouds.rotation.z = tilt;
 	scene.add( meshClouds );
 
 	// moon
-
 	const materialMoon = new THREE.MeshPhongMaterial( {
 
 		map: textureLoader.load( "textures/moon_1024.jpg" )
@@ -92,9 +121,9 @@ function init() {
 	} );
 
 	meshMoon = new THREE.Mesh( geometry, materialMoon );
-	meshMoon.position.set( radius * 5, 0, 0 );
-	meshMoon.scale.set( moonScale, moonScale, moonScale );
-	scene.add( meshMoon );
+	meshMoon.position.set( radius+900, 0, 0 );
+	meshMoon.scale.set( 0.0035, 0.0035, 0.0035 );
+	//scene.add( meshMoon );
 
 	// stars
 
@@ -243,3 +272,27 @@ function render() {
 	composer.render( delta );
 
 }
+function lights() {
+    
+    // Create lights, add lights to scene
+	dirLight = new THREE.DirectionalLight( 0xffffff );
+	dirLight.position.set( -1, 0, 1 ).normalize();
+	scene.add( dirLight );
+
+	dirLight1 = new THREE.DirectionalLight( 0xffffff );
+	dirLight1.position.set(  1, 0, -1 ).normalize();
+	scene.add( dirLight1 );
+
+	dirLight2 = new THREE.DirectionalLight( 0xffffff );
+	dirLight2.position.set( -1, 1, 1).normalize();
+	scene.add( dirLight2 );
+
+	dirLight3 = new THREE.DirectionalLight( 0xffffff );
+	dirLight3.position.set( 1, -1, 1).normalize();
+	scene.add( dirLight3 );
+
+    dirLight3 = new THREE.DirectionalLight( 0xffffff );
+	dirLight3.position.set( -1, -1, -1).normalize();
+	scene.add( dirLight3 );
+
+};
