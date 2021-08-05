@@ -3,6 +3,7 @@ import * as THREE from '../build/three.module.js';
 import Stats from '../build/stats.module.js';
 
 import { FlyControls } from '/FlyControls.js';
+import { OrbitControls } from '/OrbitControls.js';
 import { EffectComposer } from '/EffectComposer.js';
 import { RenderPass } from '/RenderPass.js';
 import { FilmPass } from '/FilmPass.js';
@@ -37,7 +38,7 @@ const MARGIN = 0;
 let SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
 let SCREEN_WIDTH = window.innerWidth;
 
-let camera, controls, scene, renderer, stats;
+let camera, controls, controls1, scene, renderer, stats;
 let geometry, meshPlanet, meshClouds, meshMoon, meshSun, meshMercury, meshVenus,
 	meshMars, meshJupiter, meshSaturn, meshUranus, meshNeptune, meshPluto;
 let dirLight, dirLight1, dirLight2, dirLight3;
@@ -46,8 +47,18 @@ let composer;
 
 const textureLoader = new THREE.TextureLoader();
 
-let d, dPlanet, dMoon;
+let d, dSun, dMoon, dMercury, dVenus, dEarth, dMars, dJupiter, dSaturn, dUranus, dNeptune, dPluto;
 const dMoonVec = new THREE.Vector3();
+const dMercuryVec = new THREE.Vector3();
+const dVenusVec = new THREE.Vector3();
+const dEarthVec = new THREE.Vector3();
+const dMarsVec = new THREE.Vector3();
+const dJupiterVec = new THREE.Vector3();
+const dSaturnVec = new THREE.Vector3();
+const dUranusVec = new THREE.Vector3();
+const dNeptuneVec = new THREE.Vector3();
+const dPlutoVec = new THREE.Vector3();
+
 
 const clock = new THREE.Clock();
 
@@ -57,7 +68,7 @@ animate();
 function init() {
 
 	camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
-	camera.position.x = (radius + plutoMeanDis);
+	camera.position.x = (radius + mercuryMeanDis);
 	camera.position.z = radius;
 
 	scene = new THREE.Scene();
@@ -288,14 +299,15 @@ function init() {
 	document.body.appendChild( renderer.domElement );
 
 	//
-
 	controls = new FlyControls( camera, renderer.domElement );
-
 	controls.movementSpeed = 1000;
 	controls.domElement = renderer.domElement;
 	controls.rollSpeed = Math.PI / 24;
 	controls.autoForward = false;
 	controls.dragToLook = false;
+
+	//controls1= new OrbitControls(camera, renderer.domElement);
+	//controls1.autoRotate = true;
 
 	//
 
@@ -349,18 +361,22 @@ function render() {
 
 	// slow down as we approach the surface
 
-	dPlanet = camera.position.length();
+	dSun = camera.position.length();
 
-	dMoonVec.subVectors( camera.position, meshMoon.position );
-	dMoon = dMoonVec.length();
+	dMercuryVec.subVectors( camera.position, meshMercury.position );
+	dMercury = dMercuryVec.length();
 
-	if ( dMoon < dPlanet ) {
+	if ( dMercury < dSun ) {
 
-		d = ( dMoon - radius * moonScale * 1.01 );
+		d = ( dMercury - radius * mercuryScale * 1.1 );
+		console.log(d)
+
+		console.log("cehck")
 
 	} else {
 
-		d = ( dPlanet - radius * 1.01 );
+		d = ( dSun - radius * 1.01 );
+		console.log("check")
 
 	}
 
@@ -370,11 +386,17 @@ function render() {
 	composer.render( delta );
 
 }
+
 function lights() {
     
     // Create lights, add lights to scene
+	dirLight = new THREE.DirectionalLight( 0xffffff );
+	dirLight.position.set( -1, 0, 1 ).normalize();
+	scene.add( dirLight );
 
-
+	dirLight1 = new THREE.DirectionalLight( 0xffffff );
+	dirLight.position.set( 1, 0, -1 ).normalize();
+	scene.add( dirLight );
 
 	dirLight2 = new THREE.DirectionalLight( 0xffffff );
 	dirLight2.position.set( -1, 1, 1).normalize();
@@ -385,3 +407,96 @@ function lights() {
 	scene.add( dirLight3 );
 
 };
+
+function render1() {
+
+	// rotate the planet and clouds
+	const delta = clock.getDelta();
+
+	meshPlanet.rotation.y += rotationSpeed * delta;
+	meshClouds.rotation.y += 1.25 * rotationSpeed * delta;
+
+	// slow down as we approach the surface
+	dSun = camera.position.length();
+
+	dMoonVec.subVectors( camera.position, meshMoon.position );
+	dMercuryVec.subVectors( camera.position, meshMercury.position );
+	dVenusVec.subVectors( camera.position, meshVenus.position );
+	dEarthVec.subVectors( camera.position, meshPlanet.position );
+	dMarsVec.subVectors( camera.position, meshMars.position );
+	dJupiterVec.subVectors( camera.position, meshJupiter.position );
+	dSaturnVec.subVectors( camera.position, meshSaturn.position );
+	dUranusVec.subVectors( camera.position, meshUranus.position );
+	dNeptuneVec.subVectors( camera.position, meshNeptune.position );
+	dPlutoVec.subVectors( camera.position, meshPluto.position );
+
+	dMoon = dMoonVec.length();
+	dMercury = dMercuryVec.length();
+	dVenus = dVenusVec.length();
+	dEarth = dEarthVec.length();
+	dMars = dMarsVec.length();
+	dJupiter = dJupiterVec.length();
+	dSaturn = dSaturnVec.length();
+	dUranus = dUranusVec.length();
+	dNeptune = dNeptuneVec.length();
+	dPluto = dPlutoVec.length();
+
+	console.log(camera.position)
+	if ( mercuryMeanDis < camera.position ) {
+
+		d = ( dMercury - radius * mercuryScale * 1.01 );
+	} 
+	if (venusMeanDis < camera.position) {
+
+		d = ( dVenus - radius * venusScale * 1.01 );
+
+	} 
+	if (earthMeanDis < camera.position) {
+
+		d = ( dEarth - radius * earthScale * 1.01 );
+	} 
+	if (marsMeanDis < camera.position){
+
+		d = ( dMars - radius * marsScale * 1.01 );
+
+	} 
+	if (jupiterMeanDis < camera.position) {
+
+		d = ( dJupiter - radius * jupiterScale * 1.01 );
+
+	} 
+	if (saturnMeanDis < camera.position) {
+
+		d = ( dSaturn - radius * saturnScale * 1.01 );
+
+	} 
+	if (uranusMeanDis < camera.position){
+
+		d = ( dUranus - radius * uranusScale * 1.01 );
+	
+	} 
+	if (neptuneMeanDis < camera.position) {
+
+		d = ( dNeptune - radius * neptuneScale * 1.01 );
+		console.log('here')
+
+	} 
+	if (plutoMeanDis < camera.position) {
+
+		d = ( dPluto - radius * plutoScale * 1.01 );
+		console.log('hre')
+
+	} 
+	else {
+
+		d = ( dSun - radius * 1.01 );
+
+	}
+
+	controls.movementSpeed = 1200;
+
+	controls.update( delta );
+
+	composer.render( delta );
+
+}
