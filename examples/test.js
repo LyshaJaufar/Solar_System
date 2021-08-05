@@ -70,6 +70,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
 	camera.position.x = (radius + mercuryMeanDis);
 	camera.position.z = radius;
+	//camera.position.y = 159000;
 
 	scene = new THREE.Scene();
 	scene.fog = new THREE.FogExp2( 0x000000, 0.00000025 );
@@ -364,21 +365,71 @@ function render() {
 	dSun = camera.position.length();
 
 	dMercuryVec.subVectors( camera.position, meshMercury.position );
+	dVenusVec.subVectors( camera.position, meshVenus.position );
+	dEarthVec.subVectors( camera.position, meshPlanet.position );
+	dMarsVec.subVectors( camera.position, meshMars.position );
+	dJupiterVec.subVectors( camera.position, meshJupiter.position );
+	dSaturnVec.subVectors( camera.position, meshSaturn.position );
+	dUranusVec.subVectors( camera.position, meshUranus.position );
+	dNeptuneVec.subVectors( camera.position, meshNeptune.position );
+	dPlutoVec.subVectors( camera.position, meshPluto.position );
+
 	dMercury = dMercuryVec.length();
+	dVenus = dVenusVec.length();
+	dEarth = dEarthVec.length();
+	dMars = dMarsVec.length();
+	dJupiter = dJupiterVec.length();
+	dSaturn = dSaturnVec.length();
+	dUranus = dUranusVec.length();
+	dNeptune = dNeptuneVec.length();
+	dPluto = dPlutoVec.length();
 
-	if ( dMercury < dSun ) {
+	if ( dMercury < dSun && dVenus > 150 && dEarth > 150 && dMars > 150 && dJupiter > 150 && dSaturn > 150 && dUranus > 150 && dNeptune > 150 && dPluto > 150) {
 
-		d = ( dMercury - radius * mercuryScale * 1.1 );
-		console.log(d)
-
-		console.log("cehck")
-
-	} else {
-
-		d = ( dSun - radius * 1.01 );
-		console.log("check")
+		d = ( dMercury - radius * mercuryScale * 6.5 );																									
 
 	}
+	if ( dVenus < dSun && dMercury > 150 && dEarth > 150 && dMars > 150 && dJupiter > 150 && dSaturn > 150 && dUranus > 150 && dNeptune > 150 && dPluto > 150) {
+																																							
+		d = ( dVenus - radius * venusScale * 6.5 );
+
+	}
+	if ( dEarth < dSun && dVenus > 150 && dMercury > 150 && dMars > 150 && dJupiter > 150 && dSaturn > 150 && dUranus > 150 && dNeptune > 150 && dPluto > 150) {
+
+		d = ( dEarth - radius * earthScale * 6.5 );																									
+
+	}
+	if ( dMars < dSun && dMercury > 150 && dEarth > 150 && dVenus > 150 && dJupiter > 150 && dSaturn > 150 && dUranus > 150 && dNeptune > 150 && dPluto > 150) {
+
+		d = ( dMars - radius * marsScale * 6.5 );
+
+	}
+	if ( dJupiter < dSun && dVenus > 150 && dEarth > 150 && dMars > 150 && dMercury > 150 && dSaturn > 150 && dUranus > 150 && dNeptune > 150 && dPluto > 150) {
+
+		d = ( dJupiter - radius * jupiterScale * 6.5 );																									
+
+	}
+	if ( dSaturn < dSun && dMercury > 150 && dEarth > 150 && dMars > 150 && dJupiter > 150 && dVenus > 150 && dUranus > 150 && dNeptune > 150 && dPluto > 150) {
+
+		d = ( dSaturn - radius * saturnScale * 6.5 );
+
+	}
+	if ( dUranus < dSun && dMercury > 150 && dEarth > 150 && dVenus > 150 && dJupiter > 150 && dSaturn > 150 && dVenus > 150 && dNeptune > 150 && dPluto > 150) {
+
+		d = ( dUranus - radius * uranusScale * 6.5 );
+
+	}
+	if ( dNeptune < dSun && dVenus > 150 && dEarth > 150 && dMars > 150 && dMercury > 150 && dSaturn > 150 && dUranus > 150 && dVenus > 150 && dPluto > 150) {
+
+		d = ( dNeptune - radius * neptuneScale * 6.5 );																									
+
+	}
+	if ( dPluto < dSun && dMercury > 150 && dEarth > 150 && dMars > 150 && dJupiter > 150 && dVenus > 150 && dUranus > 150 && dNeptune > 150 && dMercury > 150) {
+
+		d = ( dPluto - radius * plutoScale * 6.5 );
+
+	}
+
 
 	controls.movementSpeed = 0.33 * d;
 	controls.update( delta );
@@ -478,14 +529,10 @@ function render1() {
 	if (neptuneMeanDis < camera.position) {
 
 		d = ( dNeptune - radius * neptuneScale * 1.01 );
-		console.log('here')
-
 	} 
 	if (plutoMeanDis < camera.position) {
 
 		d = ( dPluto - radius * plutoScale * 1.01 );
-		console.log('hre')
-
 	} 
 	else {
 
