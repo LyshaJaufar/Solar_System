@@ -1,7 +1,7 @@
 import csv
 
 # Open the csv file
-database = open('data.txt', "r")
+database = open('python/data.csv', "r")
 database_reader = csv.DictReader(database, delimiter=';')
 
 # Planets
@@ -36,11 +36,10 @@ for row in database_reader:
     UranusInfo.append(row['Uranus'])
     NeptuneInfo.append(row['Neptune'])
     PlutoInfo.append(row['Pluto'])
-
 database.close()
 
 # Retrieve the desired data
-database = open('data.txt', 'r')
+database = open('python/data.csv', 'r')
 planetInfo = []
 for row, data in enumerate(database):
     if row != 0:
@@ -56,15 +55,8 @@ for i in range(len(planetInfo)):
     Uranus[planetInfo[i]] = UranusInfo[i]
     Neptune[planetInfo[i]] = NeptuneInfo[i]
     Pluto[planetInfo[i]] = PlutoInfo[i]
-print(Mercury, flush=True, end='')
+#print(Mercury, flush=True, end='')
 
 database.close()
 
 
-
-const {spawn} = require('child_process');
-const childPython = spawn('python', ['test.py']);
-
-childPython.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`)
-});

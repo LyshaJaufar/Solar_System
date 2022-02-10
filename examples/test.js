@@ -9,7 +9,7 @@ import { RenderPass } from '/RenderPass.js';
 import { FilmPass } from '/FilmPass.js';
 
 const radius = 3000;
-const tilt = 2;
+const tilt = 0.41;
 const rotationSpeed = 0.02;
 
 const earthScale = 0.009;
